@@ -24,6 +24,7 @@ function Second() {
         axios.get('https://633e7f1783f50e9ba3b1cef1.mockapi.io/students')
         .then((res)=>{
             setStudentData(res.data)
+            console.log(res)
         })
     },[])
 
@@ -41,6 +42,24 @@ function Second() {
 
     const handelChange=(e)=>{
       setMyData({...myData,[e.target.name]:e.target.value})
+    }
+
+    const handelDelete=(id)=>{
+        console.log(id,'delete')
+        axios.delete(`https://633e7f1783f50e9ba3b1cef1.mockapi.io/students/${id}`)
+        .then((res)=>{
+            console.log(res)
+          let record=  studentData.filter((value)=>{
+                return value.id !==id
+
+            })
+            console.log(data,'dataaaaa')
+            console.log(record,'recordddsss')
+            setStudentData(record)
+
+        })
+
+
     }
 
 
@@ -85,6 +104,7 @@ function Second() {
         /> <br />
 
         <input type='submit'  value='Add Student' />
+        <button>Cancel</button>
 
     </form>
     )
@@ -99,6 +119,7 @@ function Second() {
                 <th> First Name </th>
                 <th> Email </th>
                 <th> Password </th>
+                <th> Action </th>
             </tr>
         </thead>
         <tbody>
@@ -110,6 +131,10 @@ function Second() {
                             <td> {value.firstname} </td>
                             <td> {value.email} </td>
                             <td> {value.password} </td>
+                            <td>
+                                <button>Edit</button>
+                                <button onClick={()=>handelDelete(value.id)}>Delete</button>
+                            </td>
                         </tr>
                     )
 
